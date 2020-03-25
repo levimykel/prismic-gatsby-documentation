@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Prismic documentations`,
+    title: `Prismic Gatsby documentations`,
     description: ``,
     author: `@faresd`,
   },
