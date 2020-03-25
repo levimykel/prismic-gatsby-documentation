@@ -13,9 +13,9 @@ const IndexPage = (props) => {
 
   return(
     <Layout>
-      <h1>{RichText.render(data.homepagetitle)}</h1>
-      <img src={data.pageintro.url}  />
-      <h3>{RichText.render(data.pagecontent)}</h3>
+      <h1>{RichText.render(data.title)}</h1>
+      <img src={data.intro.url}  />
+      <h3>{RichText.render(data.content)}</h3>
     </Layout>
   )
 }
@@ -26,9 +26,9 @@ export const query = graphql`
       allHomepages(uid: null) {
         edges {
           node {
-            homepagetitle
-            pagecontent
-            pageintro
+            title
+            content
+            intro
           }
         }
       }
