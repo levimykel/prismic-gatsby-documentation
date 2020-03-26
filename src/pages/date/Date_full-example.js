@@ -19,7 +19,7 @@
 //export const query = graphql`
 //query{
 // prismic {
-//  allPages(uid: "date-page") {
+//  allPages(uid: "test-page") {
 //		edges {
 //      node {
 //        release_date

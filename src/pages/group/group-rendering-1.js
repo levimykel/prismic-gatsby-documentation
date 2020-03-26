@@ -20,7 +20,7 @@ const GroupOnePage = ({ data }) => {
 export const query = graphql`
 {
   prismic {
-    allPages(uid: "group-page") {
+    allPages(uid: "test-page") {
       edges {
         node {
           references {
