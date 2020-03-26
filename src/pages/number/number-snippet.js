@@ -4,7 +4,7 @@ import { graphql } from "gatsby"
 const Page = ({ data }) => {
   const document = data.prismic.allPages.edges[0].node
   const price = document.price   // A number
-  return price
+  return <p>{price}</p>
 }
 
 export const query = graphql`
