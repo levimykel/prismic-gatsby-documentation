@@ -1,21 +1,22 @@
 import React from "react"
 import { graphql } from "gatsby"
+import {Date} from "prismic-reactjs"
 
 const Page = ({ data }) => {
   const document = data.prismic.allPages.edges[0].node
 
-	const date = new Date(document.date);
+  const date = Date(document.publication_date)
 
-  return date
+  return date.toString()
 }
 
 export const query = graphql`
 query {
   prismic {
-    allPages(uid: "date-page") {
+    allPages(uid: "test-page") {
       edges {
         node {
-          date
+          publication_date
         }
       }
     }

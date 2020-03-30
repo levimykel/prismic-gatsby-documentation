@@ -1,14 +1,16 @@
 import React from "react"
 import { graphql } from "gatsby"
 import Moment from "moment"
+import {Date} from "prismic-reactjs"
 
 
 const Page = ({ data }) => {
   const document = data.prismic.allPages.edges[0].node
 
-	const date = new Date(document.date);
-  const formattedDate = Moment(date).format("LL");
-  // Outputs as "February 17, 2017"
+  const date = Date(document.publication_date)
+  const formattedDate = Moment(date).format("LL")
+  // Outputs as "March 11, 2020"
+
   console.log(formattedDate)
 
   return formattedDate
@@ -17,10 +19,10 @@ const Page = ({ data }) => {
 export const query = graphql`
 query {
   prismic {
-    allPages(uid: "date-page") {
+    allPages(uid: "test-page") {
       edges {
         node {
-          date
+          publication_date
         }
       }
     }
