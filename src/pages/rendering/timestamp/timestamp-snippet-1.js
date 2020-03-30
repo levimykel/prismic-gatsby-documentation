@@ -8,7 +8,7 @@ const Page = ({ data }) => {
   const dateString = Date(document.event_date)
 // Outputs as "Fri Feb 17 2017 01:00:00 GMT+0100"
 
-  return date.toString()
+  return dateString
 }
 
 export const query = graphql`
