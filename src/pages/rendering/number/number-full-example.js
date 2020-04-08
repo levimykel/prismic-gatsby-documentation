@@ -14,7 +14,7 @@ const Page = ({ data }) => {
 export const query = graphql`
 query {
   prismic {
-    allPages(uid: "date-page") {
+    allPages(uid: "test-page") {
       edges {
         node {
           price

@@ -14,7 +14,7 @@ const IndexPage = (props) => {
   return(
     <Layout>
       <h1>{RichText.render(data.title)}</h1>
-      <img src={data.intro.url}  />
+      <img src={data.intro.url} alt="Intro" />
       <h3>{RichText.render(data.content)}</h3>
     </Layout>
   )
