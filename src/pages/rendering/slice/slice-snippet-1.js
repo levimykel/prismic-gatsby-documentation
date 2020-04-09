@@ -13,20 +13,20 @@ const Page = ({ data }) => {
 
     // Text Slice
     if (slice.type === 'text') {
-      return RichText.render(slice.primary.text, linkResolver);
+      return RichText.render(slice.primary.text, linkResolver)
 
-    // Image Gallery Slice
+      // Image Gallery Slice
     } else if (slice.type === 'image_gallery') {
-      const galleryContent = slice.fields.map(function(field, imageIndex){
+      const galleryContent = slice.fields.map(function(gallery, imageIndex){
         return (
           <span>
-            <img src={field.gallery_image.url} alt={field.gallery_image.alt} key={imageIndex}/>;
+            <img src={gallery.gallery_image.url} alt={gallery.gallery_image.alt} key={imageIndex}/>
             <p className="image-captions">
-              {RichText.asText(field.image_captions)}
+              {RichText.asText(gallery.image_captions)}
             </p>
           </span>
         )
-      });
+      })
       return (
         <div className="image-gallery" key={index}>
           <h2 className="gallery-title">
@@ -34,19 +34,19 @@ const Page = ({ data }) => {
           </h2>
           {galleryContent}
         </div>
-      );
+      )
 
-    // Return null by default
+      // Return null by default
     } else {
-      return null;
+      return null
     }
-  });
+  })
 
   return (
     <div className="blog-content">
       {blogContent}
     </div>
-  );
+  )
 }
 
 export const query = graphql`
