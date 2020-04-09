@@ -6,7 +6,6 @@ import { linkResolver } from '../../../utils/linkResolver'
 
 const Page = ({ data }) => {
   const document = data.prismic.allPages.edges[0].node
-
   return (
     <a href={Link.url(document.media_link, linkResolver)}>View Image</a>
   )
@@ -15,7 +14,7 @@ const Page = ({ data }) => {
 export const query = graphql`
 query {
   prismic {
-    allPages {
+    allPages(uid: "test-page") {
       edges {
         node {
           media_link {

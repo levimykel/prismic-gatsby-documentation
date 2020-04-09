@@ -6,7 +6,6 @@ import { linkResolver } from '../../../utils/linkResolver'
 
 const Page = ({ data }) => {
   const document = data.prismic.allPages.edges[0].node
-
   return (
     <a href={Link.url(document.document_link, linkResolver)}>Go to page</a>
   )
@@ -19,7 +18,12 @@ query {
       edges {
         node {
           document_link {
-            _linkType
+            ... on PRISMIC_Homepage {
+              _meta {
+                uid
+              }
+              _linkType
+            }
           }
         }
       }
