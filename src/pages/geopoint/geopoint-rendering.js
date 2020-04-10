@@ -1,10 +1,15 @@
 import React from "react"
 import { graphql } from "gatsby"
 
-const Page = ({ data }) => {
+const GeoPointPage = ({ data }) => {
   const document = data.prismic.allPages.edges[0].node
-  const price = document.price   // A number
-  return <p>{price}</p>
+  return (
+    <>
+      <h1>Coordinates</h1>
+      <p>Latitude: {document.location.latitude}</p>
+      <p>Longitude: {document.location.longitude}</p>
+    </>
+  )
 }
 
 export const query = graphql`
@@ -13,7 +18,7 @@ query {
     allPages(uid: "test-page") {
       edges {
         node {
-          price
+          location
         }
       }
     }
@@ -21,4 +26,4 @@ query {
 }
 `
 
-export default Page
+export default GeoPointPage

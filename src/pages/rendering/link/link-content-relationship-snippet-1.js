@@ -3,7 +3,6 @@ import { graphql } from "gatsby"
 import {Link, RichText, Date} from 'prismic-reactjs';
 import { linkResolver } from '../../../utils/linkResolver'
 
-
 const Page = ({ data }) => {
   const document = data.prismic.allPages.edges[0].node
 
@@ -18,7 +17,6 @@ const Page = ({ data }) => {
   return (
     <a href={Link.url(document.web_link, linkResolver)} {...target}>Web Link</a>
   );
-
 }
 
 export const query = graphql`
