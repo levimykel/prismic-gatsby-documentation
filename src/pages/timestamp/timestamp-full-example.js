@@ -3,9 +3,13 @@ import { graphql } from "gatsby"
 import { Date } from "prismic-reactjs"
 
 const Page = ({ data }) => {
-	const document = data.prismic.allPages.edges[0].node
+	const prismicContent = data.prismic.allPages.edges[0]
 
-	const timestamp = Date(document.event_date);
+	if (!prismicContent) return null
+
+	const document = prismicContent.node
+
+	const timestamp = Date(document.event_date)
 
 	var formattedTimestamp = Intl.DateTimeFormat('en-US',{
 		year: "numeric",
@@ -14,27 +18,27 @@ const Page = ({ data }) => {
 		hour: "numeric",
 		minute: "2-digit",
 		second: "2-digit"
-	}).format(timestamp);
+	}).format(timestamp)
 // Outputs as "Mar 24, 2020, 12:00:00 AM"
 
 
 	return (
-		<h3 className="formatted-timestamp">{ formattedTimestamp }</h3>
+		<h3 className="formatted-timestamp">{formattedTimestamp}</h3>
 	)
 }
 
 export const query = graphql`
-query {
-  prismic {
-    allPages(uid: "test-page") {
-      edges {
-        node {
-          event_date
-        }
-      }
-    }
-  }
-}
+	query {
+		prismic {
+			allPages(uid: "test-page") {
+				edges {
+					node {
+						event_date
+					}
+				}
+			}
+		}
+	}
 `
 
 export default Page
