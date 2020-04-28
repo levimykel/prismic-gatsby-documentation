@@ -1,34 +1,39 @@
-import React from "react"
-import { graphql } from "gatsby"
-import { RichText } from "prismic-reactjs"
-import { linkResolver } from '../../../utils/linkResolver'
+import React, { Fragment } from 'react'
+import { graphql } from 'gatsby'
+import { RichText } from 'prismic-reactjs'
+import { linkResolver } from 'gatsby-source-prismic-graphql'
 
 
 const Page = ({ data }) => {
-  const document = data.prismic.allPages.edges[0].node
+  const prismicContent = data.prismic.allPages.edges[0]
+  if (!prismicContent) return null
 
-  const blogContent = document.body.map(function(slice, index){
-
+  const blogContent = prismicContent.node.body.map((slice, index) => {
     // Render the right markup for the given slice type
 
     // Text Slice
     if (slice.type === 'text') {
-      return RichText.render(slice.primary.text, linkResolver)
+      return (
+        <Fragment key={index}>
+          {RichText.render(slice.primary.text, linkResolver)}
+        </Fragment>
+      )
 
       // Image Gallery Slice
-    } else if (slice.type === 'image_gallery') {
-      const galleryContent = slice.fields.map(function(gallery, imageIndex){
-        return (
-          <span>
-            <img src={gallery.gallery_image.url} alt={gallery.gallery_image.alt} key={imageIndex}/>
-            <p className="image-captions">
-              {RichText.asText(gallery.image_captions)}
-            </p>
-          </span>
-        )
-      })
+    } if (slice.type === 'image_gallery') {
+      const galleryContent = slice.fields.map((gallery, galleryIndex) => (
+        <span key={galleryIndex}>
+          <img
+            src={gallery.gallery_image.url}
+            alt={gallery.gallery_image.alt}
+          />
+          <p className="image-caption">
+            {RichText.asText(gallery.image_caption)}
+          </p>
+        </span>
+      ))
       return (
-        <div className="image-gallery" key={index}>
+        <div className="image-gallery" key={`slice-${index}`}>
           <h2 className="gallery-title">
             {RichText.asText(slice.primary.name_of_the_gallery)}
           </h2>
@@ -37,9 +42,8 @@ const Page = ({ data }) => {
       )
 
       // Return null by default
-    } else {
-      return null
     }
+    return null
   })
 
   return (
@@ -50,28 +54,29 @@ const Page = ({ data }) => {
 }
 
 export const query = graphql`
-query {
-   prismic {
-    allPages(uid: "test-page") {
-      edges {
-        node {
-          body {
-            ... on PRISMIC_PageBodyImage_gallery {
-              type
-              label
-              primary {
-                name_of_the_gallery
+  query {
+    prismic {
+      allPages(uid: "test-page") {
+        edges {
+          node {
+            body {
+              ... on PRISMIC_PageBodyImage_gallery {
+                type
+                label
+                primary {
+                  name_of_the_gallery
+                }
+                fields {
+                  gallery_image
+                  image_caption
+                }
               }
-              fields {
-                gallery_image
-                image_captions
-              }
-            }
-            ... on PRISMIC_PageBodyText {
-              type
-              label
-              primary {
-                text
+              ... on PRISMIC_PageBodyText {
+                type
+                label
+                primary {
+                  text
+                }
               }
             }
           }
@@ -79,7 +84,6 @@ query {
       }
     }
   }
-}
 `
 
 export default Page
