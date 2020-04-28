@@ -1,5 +1,5 @@
-import React from "react"
-import { graphql } from "gatsby"
+import React from 'react'
+import { graphql } from 'gatsby'
 import { RichText } from 'prismic-reactjs'
 import { linkResolver } from 'gatsby-source-prismic-graphql'
 import htmlSerializer from '../../../utils/htmlSerializer'

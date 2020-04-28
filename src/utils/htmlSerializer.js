@@ -1,23 +1,21 @@
 import React from 'react'
 import { Elements } from 'prismic-richtext'
-import { linkResolver } from './linkResolver'
 import { Link as PrismicLink } from 'prismic-reactjs'
-import { Link } from "gatsby"
+import { Link } from 'gatsby'
+import { linkResolver } from './linkResolver'
 
 
 // -- Function to add unique key to props
-const propsWithUniqueKey = function(props, key) {
+const propsWithUniqueKey = function (props, key) {
   console.log(key)
   return Object.assign(props || {}, { key })
 }
 
 // -- HTML Serializer
-const htmlSerializer = function(type, element, content, children, key) {
+const htmlSerializer = function (type, element, content, children, key) {
+  let props = {}
 
-  var props = {}
-
-  switch(type) {
-
+  switch (type) {
     case Elements.heading1: // Heading 1
       return React.createElement('h1', propsWithUniqueKey(props, key), children)
 
@@ -64,20 +62,21 @@ const htmlSerializer = function(type, element, content, children, key) {
       const linkUrl = element.linkTo ? element.linkTo.url || linkResolver(element.linkTo) : null
       const linkTarget = (element.linkTo && element.linkTo.target) ? { target: element.linkTo.target } : {}
       const linkRel = linkTarget.target ? { rel: 'noopener' } : {}
-      const img = React.createElement('img', { src: element.url , alt: element.alt || '' })
+      const img = React.createElement('img', { src: element.url, alt: element.alt || '' })
       return React.createElement(
         'p',
         propsWithUniqueKey({ className: [element.label || '', 'block-img'].join(' ') }, key),
-        linkUrl ? React.createElement('a', Object.assign({ href: linkUrl }, linkTarget, linkRel), img) : img
+        linkUrl ? React.createElement('a', { href: linkUrl, ...linkTarget, ...linkRel }, img) : img,
       )
 
     case Elements.embed: // Embed
-      props = Object.assign({
-        "data-oembed": element.oembed.embed_url,
-        "data-oembed-type": element.oembed.type,
-        "data-oembed-provider": element.oembed.provider_name,
-      }, element.label ? {className: element.label} : {})
-      const embedHtml = React.createElement('div', {dangerouslySetInnerHTML: {__html: element.oembed.html}})
+      props = {
+        'data-oembed': element.oembed.embed_url,
+        'data-oembed-type': element.oembed.type,
+        'data-oembed-provider': element.oembed.provider_name,
+        ...(element.label ? { className: element.label } : {}),
+      }
+      const embedHtml = React.createElement('div', { dangerouslySetInnerHTML: { __html: element.oembed.html } })
       return React.createElement('div', propsWithUniqueKey(props, key), embedHtml)
 
     case Elements.hyperlink: // Hyperlinks
@@ -85,35 +84,32 @@ const htmlSerializer = function(type, element, content, children, key) {
       let result = ''
       const url = PrismicLink.url(element.data, linkResolver)
       if (element.data.link_type === 'Document') {
-        result = <Link to={ url } key={ key }>{ content }</Link>
+        result = <Link to={url} key={key}>{ content }</Link>
       } else {
         const targetAttr = element.data.target ? { target: element.data.target } : {}
         const relAttr = element.data.target ? { rel: 'noopener' } : {}
-        props = Object.assign({
-          href: element.data.url || linkResolver(element.data)
-        }, targetAttr, relAttr)
+        props = { href: element.data.url || linkResolver(element.data), ...targetAttr, ...relAttr }
         result = React.createElement('a', propsWithUniqueKey(props, key), children)
       }
       return result
 
     case Elements.label: // Label
-      props = element.data ? Object.assign({}, { className: element.data.label }) : {}
+      props = element.data ? ({ className: element.data.label }) : {}
       return React.createElement('span', propsWithUniqueKey(props, key), children)
 
     case Elements.span: // Span
       if (content) {
-        return content.split("\n").reduce((acc, p) => {
+        return content.split('\n').reduce((acc, p) => {
           if (acc.length === 0) {
             return [p]
-          } else {
-            const brIndex = (acc.length + 1)/2 - 1
-            const br = React.createElement('br', propsWithUniqueKey({}, brIndex))
-            return acc.concat([br, p])
           }
+          const brIndex = (acc.length + 1) / 2 - 1
+          const br = React.createElement('br', propsWithUniqueKey({}, brIndex))
+          return acc.concat([br, p])
         }, [])
-      } else {
-        return null
       }
+      return null
+
 
     default: // Always include a default that returns null
       return null
