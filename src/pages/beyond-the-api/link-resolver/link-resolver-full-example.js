@@ -1,10 +1,10 @@
-import React from "react"
-import { graphql, Link } from "gatsby"
+import React from 'react'
+import { graphql, Link } from 'gatsby'
 import { RichText } from 'prismic-reactjs'
 import { linkResolver } from 'gatsby-source-prismic-graphql'
 
 const GatsbyLink = (type, element, content, children, index) => {
-  if (element.data.link_type === "Document") {
+  if (element.data.link_type === 'Document') {
     return (
       <Link to={linkResolver(element.data)} key={element.data.id}>
         {content}
