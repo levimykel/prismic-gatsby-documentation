@@ -1,5 +1,5 @@
-import React from "react"
-import { graphql } from "gatsby"
+import React from 'react'
+import { graphql } from 'gatsby'
 
 const GeoPointPage = ({ data }) => {
   const document = data.prismic.allPages.edges[0].node

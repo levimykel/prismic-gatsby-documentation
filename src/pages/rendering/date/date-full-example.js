@@ -1,11 +1,11 @@
-import React from "react"
-import { graphql } from "gatsby"
-import { Date } from "prismic-reactjs"
+import React from 'react'
+import { graphql } from 'gatsby'
+import { Date } from 'prismic-reactjs'
 
 const Page = ({ data }) => {
 	const document = data.prismic.allPages.edges[0].node
 
-	const date = Date(document.publication_date)
+  const date = Date(document.publication_date)
 	const formattedDate = Intl.DateTimeFormat('en-US',{
 		year: 'numeric',
 		month: 'short',
