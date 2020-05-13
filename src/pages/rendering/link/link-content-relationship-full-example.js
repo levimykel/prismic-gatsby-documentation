@@ -1,8 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
-import {Link, RichText, Date} from 'prismic-reactjs';
-import { linkResolver } from '../../../utils/linkResolver'
-
+import { Link } from 'prismic-reactjs';
+import { linkResolver } from 'gatsby-source-prismic-graphql'
 
 const Page = ({ data }) => {
   const document = data.prismic.allPages.edges[0].node
@@ -20,6 +19,11 @@ export const query = graphql`
           node {
             document_link {
               _linkType
+              ... on PRISMIC_Page {
+                _meta {
+                  uid
+                }
+              }
             }
           }
         }

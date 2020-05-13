@@ -1,7 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
-import {Link, RichText, Date} from 'prismic-reactjs';
-import { linkResolver } from '../../../utils/linkResolver'
+import {Link} from 'prismic-reactjs';
+import { linkResolver } from 'gatsby-source-prismic-graphql'
 
 
 const Page = ({ data }) => {
