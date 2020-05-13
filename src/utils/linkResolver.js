@@ -1,5 +1,9 @@
 module.exports = {
   linkResolver(doc) {
-    return '/';
+    if (doc.type === 'page') {
+      return `/${doc._meta.uid}`
+    } else {
+      return '/';
+    }
   },
 };
