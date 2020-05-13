@@ -1,6 +1,6 @@
-import React from "react"
-import { graphql } from "gatsby"
-import {Link} from 'prismic-reactjs';
+import React from 'react'
+import { graphql } from 'gatsby'
+import { Link } from 'prismic-reactjs'
 import { linkResolver } from 'gatsby-source-prismic-graphql'
 
 
