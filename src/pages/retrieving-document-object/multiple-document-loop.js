@@ -10,7 +10,7 @@ const MultiPage = ({ data }) => {
         return (
           <>
             <h1>{document.title[0].text}</h1>
-            <span>{document.date}</span>
+            <span>{document.publication_date}</span>
           </>
         )
       })}
@@ -25,7 +25,7 @@ query {
       edges {
         node {
           title
-          date
+          publication_date
         }
       }
     }
