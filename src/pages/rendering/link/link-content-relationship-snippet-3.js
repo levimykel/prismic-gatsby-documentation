@@ -10,7 +10,7 @@ const Page = ({ data }) => {
 
   const document = prismicContent.node
   return (
-    <a href={Link.url(document.media_link, linkResolver)}>View Image</a>
+    <a href={Link.url(document.media_link)}>View Image</a>
   )
 }
 

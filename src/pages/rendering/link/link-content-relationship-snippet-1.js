@@ -17,9 +17,11 @@ const Page = ({ data }) => {
     }
   }
 
-  return (
-    <a href={Link.url(document.web_link, linkResolver)} {...target}>Web Link</a>
-  )
+  if (document.page_link._linkType === 'Link.web') {
+    return (
+      <a href={Link.url(document.web_link)} {...target}>Web Link</a>
+    )
+  }
 }
 
 export const query = graphql`

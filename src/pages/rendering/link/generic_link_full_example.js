@@ -1,7 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import { Link } from 'prismic-reactjs'
-import { linkResolver } from 'gatsby-source-prismic-graphql'
 
 const Page = ({ data }) => {
   const prismicContent = data.prismic.allPages.edges[0]
@@ -9,21 +8,11 @@ const Page = ({ data }) => {
 
   const document = prismicContent.node
 
-  let target = {}
-  if (document.web_link.target) {
-    target = {
-      target: document.web_link.target,
-      rel: 'noopener',
-    }
-  }
-
-  return (
-    <>
-      <a href={Link.url(document.document_link, linkResolver)}>Go to page</a>
+  if(document.page_link._linkType === 'Link.image') {
+    return (
       <a href={Link.url(document.media_link)}>View Image</a>
-      <a href={Link.url(document.web_link)} {...target}>Web Link</a>
-    </>
-  )
+    )
+  }
 }
 
 export const query = graphql`
@@ -32,25 +21,30 @@ export const query = graphql`
       allPages(uid: "test-page") {
         edges {
           node {
-            document_link {
+            page_link {
               _linkType
               ... on PRISMIC_Page {
+                title
+                description
                 _meta {
                   uid
                 }
               }
-            }
-            web_link {
-              _linkType
               ... on PRISMIC__ExternalLink {
-                _linkType
                 url
               }
-            }
-            media_link {
               ... on PRISMIC__ImageLink {
-                url
                 _linkType
+                url
+                height
+                name
+                width
+                size
+              }
+              ... on PRISMIC__FileLink {
+                url
+                size
+                name
               }
             }
           }
