@@ -1,22 +1,25 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import { Date } from 'prismic-reactjs'
 
 const Page = ({ data }) => {
   const document = data.prismic.allPages.edges[0].node
-
-  const timestamp = Date(document.event_date).toString()
-  // Outputs as "Fri Feb 17 2017 13:30:00 GMT+0100 (CET)"
-  return timestamp
+	return (
+		<pre>{JSON.stringify(document, null, 2)}</pre>
+	)
 }
 
 export const query = graphql`
-query {
+{
   prismic {
-    allPages(uid: "test-page") {
+    allPages(where: {location_near: {dist: 2, lat: 48.8574863, lng: 2.3536034}}) {
       edges {
         node {
-          event_date
+          location
+          title
+          _meta {
+            uid
+            type
+          }
         }
       }
     }
