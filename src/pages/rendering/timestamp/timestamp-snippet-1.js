@@ -1,19 +1,14 @@
-import React from "react"
-import { graphql } from "gatsby"
+import React from 'react'
+import { graphql } from 'gatsby'
 import { Date } from 'prismic-reactjs'
 
 const Page = ({ data }) => {
   const document = data.prismic.allPages.edges[0].node
 
-  const date = Date(document.publication_date);
+  const dateString = Date(document.event_date)
+  // Outputs as "Fri Feb 17 2017 01:00:00 GMT+0100"
 
-  const formattedDate = Intl.DateTimeFormat('en-US',{
-    year: 'numeric',
-    month: 'short',
-    day: '2-digit' }).format(date)
-  // Outputs as "Mar 11, 2020"
-
-  return formattedDate
+  return dateString
 }
 
 export const query = graphql`

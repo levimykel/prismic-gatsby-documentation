@@ -1,23 +1,21 @@
-import React from "react"
-import { graphql } from "gatsby"
+import React from 'react'
+import { graphql } from 'gatsby'
 
 const Page = ({ data }) => {
   const document = data.prismic.allPages.edges[0].node
 
   return (
-    <>
-      <h3 className="price">${document.price}</h3>
-    </>
+    <div dangerouslySetInnerHTML={{ __html: document.video.html }} />
   )
 }
 
 export const query = graphql`
 query {
   prismic {
-    allPages(uid: "date-page") {
+    allPages(uid: "test-page") {
       edges {
         node {
-          price
+          video
         }
       }
     }
