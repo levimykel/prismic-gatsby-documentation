@@ -3,6 +3,8 @@ module.exports = {
     if (doc.type === 'page') {
       return `/${doc._meta.uid}`
     }
-    return '/'
+    if (doc.uid === 'number-page') {
+      return '/rendering/number/number-full-example'
+    } return '/'
   },
 }
