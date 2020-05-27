@@ -1,7 +1,10 @@
 module.exports = {
   linkResolver(doc) {
-    if (doc.uid === "number-page") {
-      return `/rendering/number/number-full-example`
-    } else return '/'
-  }
+    if (doc.type === 'page') {
+      return `/${doc._meta.uid}`
+    }
+    if (doc.uid === 'number-page') {
+      return '/rendering/number/number-full-example'
+    } return '/'
+  },
 }

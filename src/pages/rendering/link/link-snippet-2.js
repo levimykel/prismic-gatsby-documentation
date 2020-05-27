@@ -1,11 +1,14 @@
-import React from "react"
-import { graphql } from "gatsby"
-import {Link, RichText, Date} from 'prismic-reactjs';
-import { linkResolver } from '../../../utils/linkResolver'
+import React from 'react'
+import { graphql } from 'gatsby'
+import { Link } from 'prismic-reactjs'
+import { linkResolver } from 'gatsby-source-prismic-graphql'
 
 
 const Page = ({ data }) => {
-  const document = data.prismic.allPages.edges[0].node
+  const prismicContent = data.prismic.allPages.edges[0]
+  if (!prismicContent) return null
+
+  const document = prismicContent.node
   return (
     <a href={Link.url(document.document_link, linkResolver)}>Go to page</a>
   )

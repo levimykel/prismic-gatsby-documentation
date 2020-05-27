@@ -1,11 +1,14 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import { Link, RichText, Date } from 'prismic-reactjs'
+import { Link } from 'prismic-reactjs'
 import { linkResolver } from 'gatsby-source-prismic-graphql'
 
-const Page = ({ data }) => {
-  const document = data.prismic.allPages.edges[0].node
 
+const Page = ({ data }) => {
+  const prismicContent = data.prismic.allPages.edges[0]
+  if (!prismicContent) return null
+
+  const document = prismicContent.node
   let target = {}
   if (document.web_link.target) {
     target = {
@@ -15,7 +18,7 @@ const Page = ({ data }) => {
   }
 
   return (
-    <a href={Link.url(document.web_link, linkResolver)} {...target}>Web Link</a>
+    <a href={Link.url(document.page_link, linkResolver)} {...target}>Web Link</a>
   )
 }
 
@@ -25,12 +28,8 @@ query {
     allPages(uid: "test-page") {
       edges {
         node {
-          web_link {
+          page_link {
             _linkType
-            ... on PRISMIC__ExternalLink {
-                _linkType
-                url
-            }
           }
         }
       }
